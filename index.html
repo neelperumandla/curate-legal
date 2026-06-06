@@ -3,14 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="0; url=privacy.html" />
-    <link rel="canonical" href="privacy.html" />
-    <title>Privacy Policy — Curate!</title>
-    <script>
-      location.replace("privacy.html");
-    </script>
+    <title>Curate! Legal</title>
+    <link rel="icon" type="image/png" href="app-icon-1024.png" />
+    <style>
+      :root {
+        --midnight: #0e0d0b;
+        --paris: #f0ead8;
+        --text-soft: #a89e8a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: var(--midnight);
+        color: var(--paris);
+        line-height: 1.65;
+        font-size: 16px;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      h1 {
+        font-size: 1.75rem;
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+      p {
+        color: var(--text-soft);
+      }
+      a {
+        color: #6aafd6;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .logo svg {
+        flex-shrink: 0;
+      }
+      .links {
+        list-style: none;
+        padding: 0;
+        margin: 32px 0 0;
+      }
+      .links li {
+        margin-bottom: 12px;
+      }
+      .links a {
+        font-size: 1.1rem;
+      }
+    </style>
   </head>
   <body>
-    <p><a href="privacy.html">Privacy Policy — Curate!</a></p>
+    <div class="wrap">
+      <div class="logo" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="60" height="60" rx="5" stroke="#f0ead8" stroke-width="2.5" />
+          <text x="36" y="40" fill="#f0ead8" font-family="Georgia, serif" font-size="26" font-weight="600" text-anchor="middle" dominant-baseline="middle">C!</text>
+        </svg>
+        <span style="font-size: 1.35rem; font-weight: 600">Curate!</span>
+      </div>
+
+      <h1>Legal</h1>
+      <p>Policies and terms for the Curate! app.</p>
+
+      <ul class="links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
   </body>
 </html>

@@ -26,7 +26,7 @@ jobs:
       - name: Prepare site
         run: |
           mkdir site
-          cp privacy.html index.html .nojekyll site/
+          cp privacy.html terms.html index.html .nojekyll site/
           cp app-icon-1024.png site/ 2>/dev/null || true
 
       - name: Upload artifact

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Opening Curate!…</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0e0d0b;
+      color: #f0ead8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    a { color: #c8a96e; font-weight: 600; }
+    .err { color: #d97272; font-size: 14px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div>
+    <p id="msg">Opening Curate!…</p>
+    <p style="font-size: 14px; opacity: 0.75">
+      If nothing happens, <a id="fallback" href="#">tap here to open the app</a>.
+    </p>
+    <p id="err" class="err" hidden></p>
+  </div>
+  <script>
+(function () {
+  var APP = "curate://login-callback";
+  var params = new URLSearchParams(window.location.search);
+  var hash = window.location.hash || "";
+  var err = params.get("error_description") || params.get("error");
+  if (err) {
+    document.getElementById("msg").textContent = "Sign-in link problem";
+    document.getElementById("err").hidden = false;
+    document.getElementById("err").textContent = err;
+    return;
+  }
+  var target = APP + window.location.search + hash;
+  var link = document.getElementById("fallback");
+  if (link) link.href = target;
+  window.location.replace(target);
+  setTimeout(function () { window.location.href = target; }, 150);
+})();
+  </script>
+</body>
+</html>

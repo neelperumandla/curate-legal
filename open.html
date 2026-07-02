@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Opening Curate!…</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0e0d0b;
+      color: #f0ead8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    a { color: #c8a96e; font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .actions { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; max-width: 280px; }
+    .btn {
+      display: block;
+      padding: 13px 16px;
+      border-radius: 10px;
+      background: #d97272;
+      color: #fff;
+      font-weight: 700;
+    }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(240, 234, 216, 0.25);
+      color: #f0ead8;
+    }
+    .err { color: #d97272; font-size: 14px; margin-top: 12px; }
+    .muted { font-size: 14px; opacity: 0.75; }
+  </style>
+</head>
+<body>
+  <div>
+    <p id="msg">Opening Curate!…</p>
+    <p class="muted" id="hint" hidden>If nothing happens, choose an option below.</p>
+    <div id="actions" class="actions" hidden></div>
+    <p id="err" class="err" hidden></p>
+  </div>
+  <script>
+(function () {
+  var APP_STORE = "__VITE_APP_STORE_URL__";
+  var PLAY_STORE = "__VITE_PLAY_STORE_URL__";
+  var params = new URLSearchParams(window.location.search);
+  var postId = params.get("post");
+  var actions = document.getElementById("actions");
+  var hint = document.getElementById("hint");
+  var msg = document.getElementById("msg");
+
+  function webViewUrl() {
+    var path = window.location.pathname.replace(/\/open\.html$/, "/");
+    if (!path.endsWith("/")) path += "/";
+    return window.location.origin + path + "?post=" + encodeURIComponent(postId);
+  }
+
+  function showFallback() {
+    msg.textContent = "Get Curate!";
+    hint.hidden = false;
+    actions.hidden = false;
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    var isAndroid = /Android/i.test(navigator.userAgent);
+
+    if (isIOS && APP_STORE.indexOf("__VITE_") === -1) {
+      var a = document.createElement("a");
+      a.className = "btn";
+      a.href = APP_STORE;
+      a.textContent = "Download on the App Store";
+      actions.appendChild(a);
+    } else if (isAndroid) {
+      var g = document.createElement("a");
+      g.className = "btn";
+      g.href = PLAY_STORE;
+      g.textContent = "Get it on Google Play";
+      actions.appendChild(g);
+    } else {
+      if (APP_STORE.indexOf("__VITE_") === -1) {
+        var ios = document.createElement("a");
+        ios.className = "btn secondary";
+        ios.href = APP_STORE;
+        ios.textContent = "App Store";
+        actions.appendChild(ios);
+      }
+      var and = document.createElement("a");
+      and.className = "btn secondary";
+      and.href = PLAY_STORE;
+      and.textContent = "Google Play";
+      actions.appendChild(and);
+    }
+
+    var view = document.createElement("a");
+    view.className = "btn secondary";
+    view.href = webViewUrl();
+    view.textContent = "View in browser";
+    actions.appendChild(view);
+
+    var retry = document.createElement("a");
+    retry.className = "btn secondary";
+    retry.href = "curate://open?post=" + encodeURIComponent(postId);
+    retry.textContent = "Open in app";
+    actions.appendChild(retry);
+  }
+
+  if (!postId) {
+    msg.textContent = "Invalid link";
+    document.getElementById("err").hidden = false;
+    document.getElementById("err").textContent = "This share link is missing a post id.";
+    return;
+  }
+
+  var appUrl = "curate://open?post=" + encodeURIComponent(postId);
+  var left = false;
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) left = true;
+  });
+  window.addEventListener("pagehide", function () {
+    left = true;
+  });
+
+  window.location.replace(appUrl);
+  setTimeout(function () {
+    window.location.href = appUrl;
+  }, 100);
+
+  setTimeout(function () {
+    if (left) return;
+    showFallback();
+  }, 1800);
+})();
+  </script>
+</body>
+</html>

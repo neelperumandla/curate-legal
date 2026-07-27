@@ -26,8 +26,11 @@ jobs:
       - name: Prepare site
         run: |
           mkdir site
-          cp privacy.html terms.html index.html .nojekyll site/
+          cp privacy.html terms.html index.html open.html auth-callback.html .nojekyll CNAME site/
           cp app-icon-1024.png site/ 2>/dev/null || true
+          mkdir -p site/.well-known
+          cp .well-known/apple-app-site-association site/.well-known/
+          cp .well-known/assetlinks.json site/.well-known/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

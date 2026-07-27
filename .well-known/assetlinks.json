@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.curate.app",
+      "sha256_cert_fingerprints": [
+        "DB:DA:90:0F:B3:65:00:01:C9:1F:4E:0A:AF:85:17:9D:93:EF:77:34:F8:D2:FD:34:96:6A:95:A5:23:D5:CA:0E"
+      ]
+    }
+  }
+]

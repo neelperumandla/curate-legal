@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "com.curate.app",
       "sha256_cert_fingerprints": [
-        "DB:DA:90:0F:B3:65:00:01:C9:1F:4E:0A:AF:85:17:9D:93:EF:77:34:F8:D2:FD:34:96:6A:95:A5:23:D5:CA:0E"
+        "DB:DA:90:0F:B3:65:00:01:C9:1F:4E:0A:AF:85:17:9D:93:EF:77:34:F8:D2:FD:34:96:6A:95:A5:23:D5:CA:0E",
+        "D8:D0:BA:2D:40:72:E7:2C:F5:11:F6:85:C8:22:9D:4D:5C:F1:20:49:63:BC:26:DE:24:2D:94:19:D6:46:CE:56"
       ]
     }
   }

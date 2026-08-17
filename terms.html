@@ -73,8 +73,11 @@
         gap: 12px;
         margin-bottom: 24px;
       }
-      .logo svg {
+      .logo img {
         flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
       }
       address {
         font-style: normal;
@@ -85,11 +88,8 @@
   </head>
   <body>
     <div class="wrap">
-      <div class="logo" aria-hidden="true">
-        <svg width="48" height="48" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="6" y="6" width="60" height="60" rx="5" stroke="#f0ead8" stroke-width="2.5" />
-          <text x="36" y="40" fill="#f0ead8" font-family="Georgia, serif" font-size="26" font-weight="600" text-anchor="middle" dominant-baseline="middle">C!</text>
-        </svg>
+      <div class="logo">
+        <img src="app-icon-1024.png" alt="Curate!" width="48" height="48" />
         <span style="font-size: 1.35rem; font-weight: 600">Curate!</span>
       </div>
 

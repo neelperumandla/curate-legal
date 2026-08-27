@@ -47,10 +47,12 @@
   </div>
   <script>
 (function () {
-  var APP_STORE = "__VITE_APP_STORE_URL__";
-  var PLAY_STORE = "__VITE_PLAY_STORE_URL__";
+  var APP_STORE = "https://apps.apple.com/us/app/curate/id6781562904";
+  var PLAY_STORE = "https://play.google.com/store/apps/details?id=com.curate.app";
   var params = new URLSearchParams(window.location.search);
   var postId = params.get("post");
+  var refUser = params.get("ref");
+  var profileUser = params.get("user");
   var actions = document.getElementById("actions");
   var hint = document.getElementById("hint");
   var msg = document.getElementById("msg");
@@ -58,10 +60,13 @@
   function webViewUrl() {
     var path = window.location.pathname.replace(/\/open\.html$/, "/");
     if (!path.endsWith("/")) path += "/";
-    return window.location.origin + path + "?post=" + encodeURIComponent(postId);
+    if (postId) return window.location.origin + path + "?post=" + encodeURIComponent(postId);
+    if (refUser) return window.location.origin + path + "?ref=" + encodeURIComponent(refUser);
+    if (profileUser) return window.location.origin + path + "?user=" + encodeURIComponent(profileUser);
+    return window.location.origin + path;
   }
 
-  function showFallback() {
+  function showFallback(appUrl) {
     msg.textContent = "Get Curate!";
     hint.hidden = false;
     actions.hidden = false;
@@ -103,19 +108,23 @@
 
     var retry = document.createElement("a");
     retry.className = "btn secondary";
-    retry.href = "curate://open?post=" + encodeURIComponent(postId);
+    retry.href = appUrl;
     retry.textContent = "Open in app";
     actions.appendChild(retry);
   }
 
-  if (!postId) {
+  if (!postId && !refUser && !profileUser) {
     msg.textContent = "Invalid link";
     document.getElementById("err").hidden = false;
-    document.getElementById("err").textContent = "This share link is missing a post id.";
+    document.getElementById("err").textContent = "This link is missing a post id, profile username, or referral username.";
     return;
   }
 
-  var appUrl = "curate://open?post=" + encodeURIComponent(postId);
+  var appUrl = postId
+    ? "curate://open?post=" + encodeURIComponent(postId)
+    : profileUser
+      ? "curate://open?user=" + encodeURIComponent(profileUser)
+      : "curate://open?ref=" + encodeURIComponent(refUser);
   var left = false;
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) left = true;
@@ -131,7 +140,7 @@
 
   setTimeout(function () {
     if (left) return;
-    showFallback();
+    showFallback(appUrl);
   }, 1800);
 })();
   </script>

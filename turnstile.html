@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Confirm it's you</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0e0d0b;
+      color: #f0ead8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    p { margin: 0 0 16px; }
+    .hint { font-size: 14px; opacity: 0.75; }
+    .err { color: #d97272; font-size: 14px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div>
+    <p>Confirm it's you. Curate! will continue when this finishes.</p>
+    <div id="widget"></div>
+    <p id="err" class="err" hidden></p>
+    <p class="hint">Stay on this screen until the check completes.</p>
+  </div>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var action = params.get("action") || "login";
+  var sitekey = params.get("sitekey") || "";
+  var err = document.getElementById("err");
+
+  function showError(message) {
+    err.hidden = false;
+    err.textContent = message;
+  }
+
+  if (!/^[a-z0-9-]{1,32}$/.test(action)) {
+    showError("This check link is invalid.");
+    return;
+  }
+  if (!/^0x[A-Za-z0-9_-]{10,}$/.test(sitekey)) {
+    showError("This check link is invalid.");
+    return;
+  }
+
+  function returnToApp(token) {
+    var dest = "curate://captcha?turnstile=" + encodeURIComponent(token) + "&action=" + encodeURIComponent(action);
+    window.location.replace(dest);
+  }
+
+  function renderWidget() {
+    if (!window.turnstile) {
+      window.setTimeout(renderWidget, 50);
+      return;
+    }
+    window.turnstile.render(document.getElementById("widget"), {
+      sitekey: sitekey,
+      action: action,
+      theme: "dark",
+      callback: function (token) {
+        if (token) returnToApp(token);
+      },
+      "error-callback": function () {
+        showError("The check failed. Close this page and try again from the app.");
+        return true;
+      }
+    });
+  }
+
+  renderWidget();
+})();
+  </script>
+</body>
+</html>
